@@ -1,352 +1,765 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Careers | ClipReach</title>
-    
-    <!-- Tailwind CSS via CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
-    
-    <!-- Premium Font Stack -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Bebas+Neue&family=Source+Sans+3:wght@400;500;600;700;900&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        'abril': ['"Abril Fatface"', 'serif'],
-                        'bebas': ['"Bebas Neue"', 'sans-serif'],
-                        'source': ['"Source Sans 3"', 'sans-serif']
-                    },
-                    colors: {
-                        brand: {
-                            red: '#ff0000',
-                            black: '#0a0a0a',
-                            white: '#ffffff',
-                            gray: '#f4f4f5',
-                            border: '#e4e4e7'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Careers | Free Job Interviews by Swabhi</title>
     <style>
-        body { background-color: #f4f4f5; color: #0a0a0a; }
-        
-        .premium-shadow {
-            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.06);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        :root {
+            --brand-red: #DC2626; 
+            --brand-red-hover: #B91C1C;
+            --brand-dark: #111827; 
+            --brand-light: #F9FAFB;
+            --card-bg: #FFFFFF;
+            --border-color: #E5E7EB;
+            --text-muted: #6B7280;
+            --success-green: #059669;
         }
-        .premium-shadow:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.12);
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+        html { scroll-behavior: smooth; }
+        body { background-color: var(--brand-light); color: var(--brand-dark); line-height: 1.5; -webkit-font-smoothing: antialiased; display: flex; flex-direction: column; min-height: 100vh; }
+
+        /* ==================== HERO SECTION (ZOMATO STYLE) ==================== */
+        .hero-section {
+            position: relative;
+            width: 100%;
+            height: 100dvh; 
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            overflow: hidden;
+            text-align: center;
+            padding: 30px 20px;
         }
 
-        /* Loading Spinner */
-        .loader {
-            border: 3px solid #e4e4e7;
-            border-top: 3px solid #ff0000;
-            border-radius: 50%;
-            width: 32px;
-            height: 32px;
-            animation: spin 1s linear infinite;
-            margin: auto;
+        .hero-video-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(17,24,39,0.2) 15%, rgba(17,24,39,0.65) 60%, rgba(17,24,39,0.92) 100%);
+            z-index: 2;
         }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            width: 100%;
+            max-width: 650px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 40px;
+            will-change: transform, opacity;
+        }
+
+        .hero-title {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+            line-height: 1.1;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        }
+        .hero-title span {
+            color: var(--brand-red);
+            font-size: 1.05rem;
+            display: block;
+            letter-spacing: 2.5px;
+            margin-top: 6px;
+            font-weight: 800;
+        }
+
+        .hero-search-box {
+            width: 100%;
+            padding: 16px 22px;
+            border-radius: 50px;
+            border: none;
+            font-size: 1rem;
+            outline: none;
+            background: #fff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+            text-align: center;
+            transition: box-shadow 0.2s ease;
+        }
+        .hero-search-box:focus {
+            box-shadow: 0 12px 35px rgba(220, 38, 38, 0.25);
+        }
+
+        /* EXACT MATCH FOR "SCROLL DOWN" ICON */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 6px;
+            animation: bounce 2s infinite;
+            text-decoration: none;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .scroll-indicator svg {
+            margin-top: 2px;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); }
+            40% { transform: translate(-50%, -6px); }
+            60% { transform: translate(-50%, -3px); }
+        }
+
+        @media(min-width: 768px) {
+            .hero-section { justify-content: center; }
+            .hero-content { margin-bottom: 0; }
+            .hero-title { font-size: 3.2rem; }
+            .hero-search-box { max-width: 500px; padding: 18px; }
+            .scroll-indicator { bottom: 35px; }
+        }
+
+        /* ==================== STICKY FILTER BAR ==================== */
+        .sticky-filter-wrapper {
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 4px 20px -2px rgba(0,0,0,0.04);
+            padding: 12px 16px;
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+        .sticky-filter-wrapper.is-stuck {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 8px 25px -5px rgba(0,0,0,0.08);
+        }
+
+        .sticky-brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 1.05rem;
+            font-weight: 900;
+            color: var(--brand-dark);
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+            
+            max-height: 0;
+            opacity: 0;
+            transform: translateY(-8px);
+            overflow: hidden;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .sticky-brand span {
+            color: var(--brand-red);
+            font-size: 0.75rem;
+            letter-spacing: 1.5px;
+            font-weight: 800;
+        }
+        .sticky-filter-wrapper.is-stuck .sticky-brand {
+            max-height: 40px; 
+            opacity: 1;
+            transform: translateY(0);
+            margin-bottom: 12px;
+        }
+
+        .filter-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .filter-container select {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 50px;
+            border: 1px solid var(--border-color);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #374151;
+            outline: none;
+            cursor: pointer;
+            background: #fff;
+            transition: border-color 0.15s ease;
+        }
+        .filter-container select:focus { border-color: var(--brand-red); }
+        @media(min-width: 768px) {
+            .sticky-filter-wrapper { padding: 16px 24px; }
+            .filter-container { gap: 14px; }
+            .filter-container select { padding: 12px 18px; font-size: 0.92rem; }
+        }
+
+        /* ==================== MAIN CONTENT & CARDS ==================== */
+        .content-main { flex: 1; }
+        .container { max-width: 1100px; margin: 35px auto 25px auto; padding: 0 16px; }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 22px;
+        }
+        .eyebrow {
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--brand-red);
+            margin-bottom: 4px;
+        }
+        .section-title { font-size: 1.55rem; font-weight: 800; letter-spacing: -0.4px; color: var(--brand-dark); }
+        .role-count-pill {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            background: #fff;
+            border: 1px solid var(--border-color);
+            padding: 6px 14px;
+            border-radius: 50px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+        
+        .job-grid { display: grid; grid-template-columns: 1fr; gap: 18px; }
+        @media(min-width: 768px) { .job-grid { grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 22px; } }
+        
+        .job-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+        .job-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px -5px rgba(0,0,0,0.06);
+            border-color: #D1D5DB;
+        }
+        
+        .job-title-area { margin-bottom: 10px; }
+        .job-title { font-size: 1.22rem; font-weight: 800; line-height: 1.25; color: var(--brand-dark); }
+        .job-subtitle { font-size: 0.9rem; font-weight: 700; color: #4B5563; margin-top: 2px; }
+        
+        .meta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-bottom: 16px; font-size: 0.83rem; font-weight: 600; color: var(--text-muted); }
+        .meta-item { display: inline-flex; align-items: center; gap: 5px; }
+        
+        .salary-box { margin-bottom: 16px; background: var(--brand-light); border: 1px solid var(--border-color); border-radius: 10px; padding: 12px 14px; display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
+        .salary-main { font-size: 1.35rem; font-weight: 900; color: var(--brand-red); display: flex; align-items: center; line-height: 1; }
+        .salary-sub { font-size: 0.74rem; font-weight: 800; color: var(--brand-dark); text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.2; }
+
+        .requirements { flex-grow: 1; font-size: 0.9rem; color: #4B5563; margin-bottom: 20px; }
+        .requirements strong { color: var(--brand-dark); font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 8px; }
+        .requirements ul { padding-left: 18px; }
+        .requirements li { margin-bottom: 5px; line-height: 1.45; }
+        
+        .apply-btn { background: var(--brand-dark); color: #fff; font-weight: 700; font-size: 0.98rem; padding: 14px; border: none; border-radius: 12px; cursor: pointer; width: 100%; transition: background 0.2s ease, transform 0.1s ease; box-shadow: 0 2px 6px rgba(17, 24, 39, 0.15); }
+        .apply-btn:hover { background: var(--brand-red); }
+        .apply-btn:active { transform: scale(0.99); }
+        .apply-btn.applied { background: var(--success-green); box-shadow: none; cursor: default; }
+
+        /* ==================== MINIMAL FOOTER ==================== */
+        .site-footer {
+            background-color: #fff;
+            border-top: 1px solid var(--border-color);
+            padding: 30px 20px; 
+            margin-top: 0;      
+        }
+        .footer-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .footer-left { display: flex; flex-direction: column; gap: 8px; }
+        .footer-brand { 
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 1.15rem;
+            font-weight: 900; 
+            color: var(--brand-dark); 
+            text-transform: uppercase; 
+            letter-spacing: -0.5px; 
+        }
+        .footer-brand span { 
+            color: var(--brand-red); 
+            font-size: 0.8rem;
+            letter-spacing: 1.5px; 
+            font-weight: 800;
+        }
+        
+        .footer-address { font-size: 0.9rem; color: var(--text-muted); font-weight: 500; margin-top: 4px; }
+        .footer-phone { font-size: 0.95rem; font-weight: 700; color: var(--brand-dark); text-decoration: none; display: inline-block; margin-top: 5px; transition: color 0.2s; }
+        .footer-phone:hover { color: var(--brand-red); }
+        
+        .footer-right { display: flex; flex-direction: column; justify-content: flex-end; }
+        .footer-copyright { font-size: 0.85rem; color: #9CA3AF; }
+        
+        @media(min-width: 768px) {
+            .footer-container { flex-direction: row; justify-content: space-between; align-items: flex-end; }
+            .footer-brand span { margin-left: 5px; }
+            .footer-right { text-align: right; }
+        }
+
+        /* ==================== MODAL ==================== */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(17,24,39,0.7); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); display: none; align-items: flex-end; z-index: 1000; }
+        .modal-content { background: #fff; padding: 28px 22px 38px 22px; border-radius: 24px 24px 0 0; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 -10px 40px rgba(0,0,0,0.2); }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        
+        @media(min-width: 768px) {
+            .modal-overlay { align-items: center; justify-content: center; padding: 20px; }
+            .modal-content { border-radius: 16px; max-width: 460px; padding: 36px; }
+            @keyframes slideUp { from { transform: scale(0.96); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        }
+
+        .close-modal { position: absolute; top: 18px; right: 20px; font-size: 1.4rem; cursor: pointer; color: #9CA3AF; padding: 5px; transition: color 0.15s; }
+        .close-modal:hover { color: var(--brand-dark); }
+        .modal-title { font-size: 1.35rem; font-weight: 800; margin-bottom: 4px; color: var(--brand-dark); }
+        .modal-subtitle { font-size: 0.92rem; color: var(--text-muted); margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border-color); }
+        
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.88rem; color: #374151; }
+        .form-group input, .form-group select { width: 100%; padding: 12px 14px; border: 1px solid #D1D5DB; border-radius: 10px; font-size: 0.98rem; outline: none; background: #fff; transition: border-color 0.15s, box-shadow 0.15s; }
+        .form-group input:focus, .form-group select:focus { border-color: var(--brand-red); box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12); }
+        .form-group input[type="file"] { padding: 10px; background: var(--brand-light); border: 1px dashed var(--border-color); cursor: pointer; }
+        
+        .success-screen { display: none; text-align: center; padding: 20px 0; }
+        .success-screen h3 { color: var(--success-green); font-size: 1.4rem; margin-bottom: 10px; font-weight: 800; }
+        #loadingSpinner { display: none; text-align: center; color: var(--brand-red); font-weight: bold; margin-top: 16px; font-size: 1rem; }
+        .empty-state { text-align: center; padding: 50px 20px; color: var(--text-muted); font-size: 1rem; background: #fff; border-radius: 16px; border: 1px dashed #D1D5DB; grid-column: 1 / -1; }
     </style>
 </head>
-<body class="font-source antialiased min-h-screen flex flex-col selection:bg-brand-red selection:text-white">
+<body>
 
-    <!-- Top Navigation -->
-    <header class="bg-brand-white border-b border-brand-border sticky top-0 z-40">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <!-- Logo -->
-            <a href="#" class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-lg bg-brand-black flex items-center justify-center text-brand-white text-sm">
-                    <i class="fa-solid fa-scissors"></i>
-                </div>
-                <span class="font-abril text-2xl tracking-wide text-brand-black mt-1">Clip<span class="text-brand-red">Reach</span>.</span>
-            </a>
+    <header class="hero-section" id="top">
+        <video class="hero-video-bg" autoplay loop muted playsinline>
+            <source src="DESKTOP_HORIZONTAL_VIDEO.mp4" media="(min-width: 768px)">
+            <source src="MOBILE_VERTICAL_VIDEO.mp4">
+        </video>
+        
+        <div class="hero-overlay"></div>
 
-            <div class="flex items-center gap-4">
-                <span class="bg-red-50 text-brand-red font-bold text-xs px-3 py-1 rounded-full border border-red-100 uppercase tracking-wider">
-                    Actively Hiring
-                </span>
-            </div>
+        <div class="hero-content" id="heroContent">
+            <h1 class="hero-title">
+                Free Job Interviews
+                <span>BY SWABHI</span>
+            </h1>
+
+            <input type="text" id="searchInput" class="hero-search-box" placeholder="Search job titles or keywords..." onkeyup="filterJobs()">
         </div>
+
+        <a href="#openings" class="scroll-indicator">
+            Scroll down
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="7 13 12 18 17 13"></polyline>
+                <polyline points="7 6 12 11 17 6"></polyline>
+            </svg>
+        </a>
     </header>
 
-    <!-- Main Content -->
-    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 w-full">
-        
-        <!-- Hero Header -->
-        <div class="mb-16 text-center md:text-left max-w-3xl">
-            <h1 class="font-abril text-4xl md:text-5xl text-brand-black mb-4">Open Positions</h1>
-            <p class="font-source text-lg text-gray-600">Join the ClipReach team. Browse our current openings below, apply instantly, and our recruitment team will reach out within 24 hours.</p>
+    <div class="sticky-filter-wrapper" id="openings">
+        <div class="sticky-brand">
+            Free Job Interviews <span>BY SWABHI</span>
         </div>
 
-        <!-- Loading State -->
-        <div id="loading-state" class="flex flex-col items-center justify-center py-20">
-            <div class="loader mb-4"></div>
-            <p class="font-source font-bold uppercase tracking-widest text-gray-400 text-sm">Syncing latest openings...</p>
-        </div>
-
-        <!-- Job Grid -->
-        <div id="job-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 hidden">
-            <!-- Jobs injected via JS -->
-        </div>
-
-        <!-- Empty State -->
-        <div id="empty-state" class="hidden text-center py-24 bg-brand-white border border-brand-border rounded-2xl premium-shadow">
-            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-400 text-2xl">
-                <i class="fa-solid fa-briefcase"></i>
-            </div>
-            <h2 class="font-source font-bold text-2xl text-brand-black mb-2">No Open Positions</h2>
-            <p class="font-source text-gray-500">We are currently fully staffed. Please check back later for new opportunities.</p>
-        </div>
-
-    </main>
-
-    <!-- Application Modal Overlay -->
-    <div id="modal-overlay" class="fixed inset-0 bg-brand-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        
-        <!-- Modal Container -->
-        <div class="bg-brand-white border border-brand-border rounded-2xl p-8 md:p-10 w-full max-w-md shadow-2xl relative">
-            
-            <!-- Close Button -->
-            <button onclick="closeModal()" class="absolute top-5 right-5 text-gray-400 hover:text-brand-red transition-colors">
-                <i class="fa-solid fa-xmark text-xl"></i>
-            </button>
-
-            <!-- Form Section -->
-            <div id="modal-form-section">
-                <div class="mb-8">
-                    <p class="font-source font-bold text-xs text-brand-red uppercase tracking-widest mb-1">Application</p>
-                    <h3 id="modal-job-title" class="font-abril text-2xl text-brand-black leading-tight">
-                        Role Title
-                    </h3>
-                </div>
-
-                <form id="application-form" onsubmit="submitApplication(event)" class="space-y-5">
-                    <input type="hidden" id="job-id-input">
-                    <input type="hidden" id="job-title-input">
-                    
-                    <div>
-                        <label class="block font-source font-bold text-xs uppercase tracking-widest text-gray-500 mb-2">Full Name</label>
-                        <input type="text" id="name-input" required placeholder="Jane Doe" class="w-full bg-gray-50 border border-brand-border rounded-xl px-4 py-3 font-source text-sm focus:outline-none focus:border-brand-black focus:ring-1 focus:ring-brand-black transition-all">
-                    </div>
-                    
-                    <div>
-                        <label class="block font-source font-bold text-xs uppercase tracking-widest text-gray-500 mb-2">Phone Number</label>
-                        <input type="tel" id="phone-input" required placeholder="+91 00000 00000" class="w-full bg-gray-50 border border-brand-border rounded-xl px-4 py-3 font-source text-sm focus:outline-none focus:border-brand-black focus:ring-1 focus:ring-brand-black transition-all">
-                    </div>
-
-                    <button type="submit" id="submit-btn" class="w-full bg-brand-black text-brand-white font-source font-bold text-sm px-6 py-3.5 rounded-full hover:bg-brand-red transition-colors mt-4 flex items-center justify-center">
-                        Submit Application
-                    </button>
-                </form>
-            </div>
-
-            <!-- Success Section -->
-            <div id="modal-success-section" class="hidden text-center py-6">
-                <div class="w-16 h-16 bg-green-50 text-green-500 flex items-center justify-center mx-auto mb-6 rounded-full border border-green-200">
-                    <i class="fa-solid fa-check text-2xl"></i>
-                </div>
-                <h3 class="font-abril text-3xl text-brand-black mb-2">Application Received</h3>
-                <p class="font-source text-brand-red font-bold text-sm uppercase tracking-wide mb-8">Next Step: Call us to confirm.</p>
-                
-                <a href="tel:+916002413305" class="inline-block w-full bg-brand-black text-brand-white font-source font-bold text-lg py-4 rounded-xl hover:bg-brand-red transition-colors shadow-lg shadow-brand-red/10 mb-3">
-                    <i class="fa-solid fa-phone mr-2"></i> Call Now
-                </a>
-                <p class="font-source text-xs text-gray-500 uppercase tracking-widest">Office Hours: 10 AM — 5 PM</p>
-            </div>
-
+        <div class="filter-container">
+            <select id="filterType" onchange="filterJobs()"><option value="all">Job Type</option></select>
+            <select id="filterExperience" onchange="filterJobs()"><option value="all">Experience</option></select>
+            <select id="filterLocation" onchange="filterJobs()"><option value="all">Location</option></select>
         </div>
     </div>
 
-    <!-- JavaScript Logic -->
-    <script>
-        // ==========================================
-        // PASTE YOUR GOOGLE SCRIPT URL HERE
-        // ==========================================
-        const API_URL = "YOUR_GOOGLE_SCRIPT_WEB_APP_URL";
-        
-        // Dummy data for design preview before API is hooked up
-        const fallbackJobs = [
-            {
-                "ID": "JOB-001",
-                "Job Title": "Back Office Executive",
-                "Salary": "Upto ₹20,000",
-                "Perks": "Performance Incentives",
-                "Requirements": "Experience in Back-Office|Fluent in Assamese & Basic English|Basic Computer Skills",
-                "Location": "Jyotikuchi, Guwahati",
-                "Vacancies": "3",
-                "Status": "Open"
-            },
-            {
-                "ID": "JOB-002",
-                "Job Title": "Telecaller",
-                "Salary": "Upto ₹15,000",
-                "Perks": "High Commission",
-                "Requirements": "Excellent Communication|Fluent in Assamese|Target Driven",
-                "Location": "Jyotikuchi, Guwahati",
-                "Vacancies": "5",
-                "Status": "Open"
-            }
-        ];
+    <div class="content-main">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <div class="eyebrow">Fresh Listings</div>
+                    <h2 class="section-title">Latest opportunities</h2>
+                </div>
+                <div class="role-count-pill" id="roleCount">Loading...</div>
+            </div>
 
-        document.addEventListener('DOMContentLoaded', fetchJobs);
+            <div class="job-grid" id="jobGrid">
+                <div class="empty-state">Loading available roles...</div>
+            </div>
+        </div>
+    </div>
 
-        async function fetchJobs() {
-            const grid = document.getElementById('job-grid');
-            const loader = document.getElementById('loading-state');
-            const emptyState = document.getElementById('empty-state');
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-left">
+                <div class="footer-brand">
+                    Free Job Interviews <span>BY SWABHI</span>
+                </div>
+                <p class="footer-address">2nd floor, Crystal Conclave, Hem Baruah Rd, opposite to MAAC, Pan Bazaar, Guwahati, Assam 781001</p>
+                <a href="tel:+916002413305" class="footer-phone">📞 +91 60024 13305</a>
+            </div>
+            
+            <div class="footer-right">
+                <div class="footer-copyright">
+                    &copy; 2026 Swabhi. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
 
-            try {
-                if(API_URL === "YOUR_GOOGLE_SCRIPT_WEB_APP_URL") {
-                    renderJobs(fallbackJobs);
-                    loader.classList.add('hidden');
-                    grid.classList.remove('hidden');
-                    return;
-                }
-
-                const response = await fetch(API_URL);
-                const data = await response.json();
-                const openJobs = data.filter(job => job.Status === 'Open');
+    <div class="modal-overlay" id="applyModal" onclick="closeModalOutside(event)">
+        <div class="modal-content" id="modalBox">
+            <span class="close-modal" onclick="closeModal()">✖</span>
+            
+            <div id="formScreen">
+                <div class="modal-title">Complete Application</div>
+                <div class="modal-subtitle" id="modalJobTitle">Job Title</div>
                 
-                loader.classList.add('hidden');
-                
-                if (openJobs.length > 0) {
-                    renderJobs(openJobs);
-                    grid.classList.remove('hidden');
-                } else {
-                    emptyState.classList.remove('hidden');
-                }
-
-            } catch (error) {
-                console.error("Error fetching jobs:", error);
-                alert("Could not load jobs. Please refresh.");
-                loader.classList.add('hidden');
-            }
-        }
-
-        function renderJobs(jobs) {
-            const grid = document.getElementById('job-grid');
-            grid.innerHTML = ''; 
-
-            jobs.forEach(job => {
-                const reqsHtml = job.Requirements.split('|')
-                    .map(req => `<li class="flex items-start gap-2"><i class="fa-solid fa-minus text-[10px] mt-1.5 text-gray-300"></i> <span class="flex-1">${req.trim()}</span></li>`)
-                    .join('');
-
-                const cardHtml = `
-                    <div class="bg-brand-white border border-brand-border rounded-2xl p-6 md:p-8 premium-shadow flex flex-col h-full">
-                        <div class="flex-grow">
-                            <div class="flex justify-between items-start mb-5">
-                                <span class="bg-gray-100 text-gray-600 font-source font-bold text-[10px] px-2.5 py-1 rounded-full uppercase tracking-widest">
-                                    <i class="fa-solid fa-location-dot mr-1"></i> ${job.Location}
-                                </span>
-                                <span class="text-brand-red font-source font-bold text-[10px] uppercase tracking-widest bg-red-50 px-2.5 py-1 rounded-full">
-                                    🔥 ${job.Vacancies} Left
-                                </span>
-                            </div>
-                            
-                            <h2 class="font-abril text-2xl text-brand-black leading-tight mb-6">${job['Job Title']}</h2>
-                            
-                            <div class="bg-gray-50 rounded-xl p-4 border border-brand-border mb-6">
-                                <p class="font-source font-bold uppercase tracking-widest text-gray-400 text-[10px] mb-1">Compensation</p>
-                                <p class="font-bebas text-4xl text-brand-black tracking-wide">${job.Salary}</p>
-                                <p class="font-source font-semibold text-xs text-brand-red mt-1">${job.Perks}</p>
-                            </div>
-
-                            <div class="mb-8">
-                                <p class="font-source font-bold uppercase text-xs tracking-widest text-gray-400 mb-3 border-b border-brand-border pb-2">Requirements</p>
-                                <ul class="font-source text-sm text-gray-600 space-y-2">
-                                    ${reqsHtml}
-                                </ul>
-                            </div>
-                        </div>
-
-                        <button onclick="openModal('${job.ID}', '${job['Job Title']}')" class="w-full bg-brand-black text-brand-white font-source font-bold text-sm px-6 py-3 rounded-full hover:bg-brand-red transition-colors mt-auto">
-                            Apply for Role
-                        </button>
+                <form id="applyForm" onsubmit="submitApplication(event)">
+                    <input type="hidden" id="jobIdInput">
+                    <input type="hidden" id="jobTitleInput">
+                    
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" id="applicantName" required placeholder="Enter your full name">
                     </div>
-                `;
-                grid.innerHTML += cardHtml;
+                    
+                    <div class="form-group">
+                        <label>Phone Number *</label>
+                        <input type="tel" id="applicantPhone" required placeholder="10-digit mobile number">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Current Status *</label>
+                        <select id="applicantStatus" required>
+                            <option value="" disabled selected>Select status...</option>
+                            <option value="Working">Working currently</option>
+                            <option value="Fresher">Fresher (Never Worked)</option>
+                            <option value="Not Working">Not Working currently</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Total Experience *</label>
+                        <input type="text" id="applicantExperience" required placeholder="e.g. 6 Months, 2 Years, None">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Current / Desired Domain *</label>
+                        <input type="text" id="applicantDomain" required placeholder="e.g. Sales, Marketing, Retail">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Upload Resume (Optional)</label>
+                        <input type="file" id="resumeFile" accept=".pdf,.doc,.docx">
+                    </div>
+
+                    <button type="submit" class="apply-btn" id="submitBtn">Submit Application</button>
+                    <div id="loadingSpinner">Submitting your application... Please wait.</div>
+                </form>
+            </div>
+
+            <div id="successScreen" class="success-screen">
+                <h3>Application Submitted Successfully!</h3>
+                <p>We have received your details.</p>
+                <p style="margin-top: 15px; font-size: 0.92rem; color: var(--text-muted);">To confirm your application immediately, please call us directly.</p>
+                
+                <a href="tel:+916002413305" class="apply-btn" style="display:flex; justify-content:center; align-items:center; text-decoration:none; margin-top:20px; background:var(--brand-red);">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                    </svg>
+                    Call +91 60024 13305
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const SHEET_ID = "19N7jV-E8nE5OrEEFS2w5GxqlzFAS3RHER6JIv0ipDZg"; 
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx4_A9GMJA-2h_2gS_u9-e4iHgDCOLfWIUMQ_AjD4p18oXQKcduqkDIART6KwnxjnKA/exec"; 
+        const SHEET_JSON_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Listings`;
+
+        let allJobs = [];
+        let appliedJobs = JSON.parse(localStorage.getItem('swabhi_applied')) || [];
+
+        document.addEventListener("DOMContentLoaded", () => {
+            fetchJobs();
+            setupScrollAnimations();
+        });
+
+        function setupScrollAnimations() {
+            const stickyEl = document.getElementById('openings');
+            const heroContent = document.getElementById('heroContent');
+            
+            window.addEventListener('scroll', () => {
+                const scrollY = window.scrollY;
+                const windowHeight = window.innerHeight;
+
+                if (heroContent && scrollY < windowHeight) {
+                    heroContent.style.transform = `translateY(${scrollY * 0.35}px)`;
+                    heroContent.style.opacity = Math.max(1 - (scrollY / (windowHeight * 0.45)), 0);
+                }
+
+                if (stickyEl && stickyEl.getBoundingClientRect().top <= 1) {
+                    stickyEl.classList.add('is-stuck');
+                } else if (stickyEl) {
+                    stickyEl.classList.remove('is-stuck');
+                }
             });
         }
 
-        // Modal Controls
-        const modalOverlay = document.getElementById('modal-overlay');
-        const formSection = document.getElementById('modal-form-section');
-        const successSection = document.getElementById('modal-success-section');
-        const submitBtn = document.getElementById('submit-btn');
+        const getVal = (row, idx) => {
+            if (row.c && row.c[idx]) {
+                if (row.c[idx].f !== undefined && row.c[idx].f !== null) return String(row.c[idx].f);
+                if (row.c[idx].v !== undefined && row.c[idx].v !== null) return String(row.c[idx].v);
+            }
+            return "";
+        };
 
-        function openModal(jobId, jobTitle) {
-            document.getElementById('modal-job-title').innerText = jobTitle;
-            document.getElementById('job-id-input').value = jobId;
-            document.getElementById('job-title-input').value = jobTitle;
-            
-            formSection.classList.remove('hidden');
-            successSection.classList.add('hidden');
-            document.getElementById('application-form').reset();
-            submitBtn.innerHTML = 'Submit Application';
-            submitBtn.disabled = false;
+        function fetchJobs() {
+            fetch(SHEET_JSON_URL)
+            .then(res => res.text())
+            .then(text => {
+                const startIdx = text.indexOf('(') + 1;
+                const endIdx = text.lastIndexOf(')');
+                const jsonStr = text.substring(startIdx, endIdx);
+                const data = JSON.parse(jsonStr);
+                
+                allJobs = data.table.rows.map(row => ({
+                    id: getVal(row, 0).trim(),
+                    title: getVal(row, 1).trim(),
+                    type: getVal(row, 2).trim(),
+                    experience: getVal(row, 3).trim(),
+                    location: getVal(row, 4).trim(),
+                    salary: getVal(row, 5).trim(),
+                    requirements: getVal(row, 6).trim(),
+                    status: getVal(row, 8).trim()
+                })).filter(job => {
+                    const rawData = JSON.stringify(job).toLowerCase();
+                    const hasBannedWords = rawData.includes("pcconstruction site") || rawData.includes("psconstruction site");
+                    return !hasBannedWords && job.title !== "" && (job.status.toLowerCase() === "open" || job.status === "");
+                });
 
-            modalOverlay.classList.remove('hidden');
+                populateFilters();
+                filterJobs();
+            })
+            .catch(error => {
+                console.error("Database error:", error);
+                document.getElementById("jobGrid").innerHTML = `<div class="empty-state">Could not load jobs. Please check network connection.</div>`;
+            });
         }
 
-        function closeModal() {
-            modalOverlay.classList.add('hidden');
+        function populateFilters() {
+            const types = [...new Set(allJobs.map(j => j.type).filter(Boolean))];
+            const exps = [...new Set(allJobs.map(j => j.experience).filter(Boolean))];
+            const locs = [...new Set(allJobs.map(j => j.location).filter(Boolean))];
+
+            document.getElementById('filterType').options.length = 1;
+            document.getElementById('filterExperience').options.length = 1;
+            document.getElementById('filterLocation').options.length = 1;
+
+            types.forEach(t => document.getElementById('filterType').add(new Option(t, t)));
+            exps.forEach(e => document.getElementById('filterExperience').add(new Option(e, e)));
+            locs.forEach(l => document.getElementById('filterLocation').add(new Option(l, l)));
         }
 
-        async function submitApplication(e) {
-            e.preventDefault();
+        function filterJobs() {
+            const searchQ = document.getElementById('searchInput').value.toLowerCase();
+            const typeVal = document.getElementById('filterType').value;
+            const expVal = document.getElementById('filterExperience').value;
+            const locVal = document.getElementById('filterLocation').value;
+
+            const filtered = allJobs.filter(job => {
+                const matchSearch = job.title.toLowerCase().includes(searchQ) || job.requirements.toLowerCase().includes(searchQ);
+                const matchType = (typeVal === "all" || job.type === typeVal);
+                const matchExp = (expVal === "all" || job.experience === expVal);
+                const matchLoc = (locVal === "all" || job.location === locVal);
+                return matchSearch && matchType && matchExp && matchLoc;
+            });
             
-            const name = document.getElementById('name-input').value;
-            const phone = document.getElementById('phone-input').value;
-            const jobId = document.getElementById('job-id-input').value;
-            const jobTitle = document.getElementById('job-title-input').value;
+            renderJobs(filtered);
+        }
 
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<div class="loader !border-gray-400 !border-t-white !w-5 !h-5 border-2"></div>';
-
-            const payload = { name, phone, jobId, jobTitle };
-
-            if(API_URL === "YOUR_GOOGLE_SCRIPT_WEB_APP_URL") {
-                setTimeout(() => {
-                    formSection.classList.add('hidden');
-                    successSection.classList.remove('hidden');
-                }, 1000);
+        function renderJobs(jobsToRender) {
+            const grid = document.getElementById("jobGrid");
+            let htmlString = ""; 
+            
+            if(jobsToRender.length === 0) {
+                grid.innerHTML = `<div class="empty-state">No roles match your current search criteria.</div>`;
                 return;
             }
 
-            try {
-                await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify(payload)
-                });
+            jobsToRender.forEach(job => {
+                const isApplied = appliedJobs.includes(job.id);
                 
-                formSection.classList.add('hidden');
-                successSection.classList.remove('hidden');
+                let rawTitle = job.title || 'Untitled Role';
+                let titleParts = rawTitle.split(/\||\n/);
+                let mainTitle = titleParts[0] ? titleParts[0].trim() : 'Untitled Role';
+                let subTitle = titleParts.slice(1).join(' ').trim();
 
-            } catch (error) {
-                console.error('Error submitting application:', error);
-                alert("Connection failed. Please try again.");
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = 'Submit Application';
+                let rawSalary = (job.salary || '').replace(/₹/g, '').trim();
+                let salaryMain = '';
+                let salarySub = '';
+
+                if (rawSalary.includes('|') || rawSalary.includes('\n')) {
+                    let salaryParts = rawSalary.split(/\n|\|/);
+                    salaryMain = salaryParts[0] ? salaryParts[0].trim() : '';
+                    salarySub = salaryParts.slice(1).join(' + ').trim();
+                } else {
+                    const match = rawSalary.match(/^([\d,\.]+)\s+(.*)/);
+                    if (match) {
+                        salaryMain = match[1].trim();
+                        salarySub = match[2].trim();
+                    } else {
+                        salaryMain = rawSalary;
+                    }
+                }
+
+                let metaHTML = '';
+                if(job.location) metaHTML += `<span class="meta-item">📍 ${job.location}</span>`;
+                if(job.type) metaHTML += `<span class="meta-item">⏱️ ${job.type}</span>`;
+                if(job.experience) metaHTML += `<span class="meta-item">🎓 ${job.experience}</span>`;
+
+                const reqListHtml = job.requirements 
+                    ? job.requirements.split(/\||\n/).filter(r => r.trim() !== '').map(r => `<li>${r.trim()}</li>`).join('')
+                    : `<li>Details provided upon application</li>`;
+
+                const safeModalTitle = mainTitle.replace(/'/g, "\\'");
+
+                htmlString += `
+                    <div class="job-card">
+                        <div class="job-title-area">
+                            <div class="job-title">${mainTitle}</div>
+                            ${subTitle ? `<div class="job-subtitle">${subTitle}</div>` : ''}
+                        </div>
+                        
+                        ${metaHTML ? `<div class="meta-row">${metaHTML}</div>` : ''}
+                        
+                        ${salaryMain ? `
+                            <div class="salary-box">
+                                <div class="salary-main">₹ ${salaryMain}</div>
+                                ${salarySub ? `<div class="salary-sub">${salarySub}</div>` : ''}
+                            </div>
+                        ` : ''}
+                        
+                        <div class="requirements">
+                            <strong>KEY REQUIREMENTS:</strong>
+                            <ul>${reqListHtml}</ul>
+                        </div>
+                        
+                        ${isApplied 
+                            ? `<button class="apply-btn applied" disabled>✓ Application Submitted</button>`
+                            : `<button class="apply-btn" onclick="openModal('${job.id}', '${safeModalTitle}')">Apply Now</button>`
+                        }
+                    </div>
+                `;
+            });
+            
+            grid.innerHTML = htmlString;
+        }
+
+        function openModal(id, title) {
+            document.getElementById("jobIdInput").value = id;
+            document.getElementById("jobTitleInput").value = title;
+            document.getElementById("modalJobTitle").innerText = title;
+            
+            document.getElementById("formScreen").style.display = "block";
+            document.getElementById("successScreen").style.display = "none";
+            document.getElementById("applyForm").reset();
+            document.getElementById("applyModal").style.display = "flex";
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeModal() {
+            document.getElementById("applyModal").style.display = "none";
+            document.body.style.overflow = "auto";
+        }
+        
+        function closeModalOutside(event) {
+            if (event.target === document.getElementById('applyModal')) { closeModal(); }
+        }
+
+        function submitApplication(event) {
+            event.preventDefault(); 
+            document.getElementById("submitBtn").style.display = "none";
+            document.getElementById("loadingSpinner").style.display = "block";
+
+            const payload = {
+                name: document.getElementById("applicantName").value,
+                phone: document.getElementById("applicantPhone").value,
+                status: document.getElementById("applicantStatus").value,
+                experience: document.getElementById("applicantExperience").value,
+                domain: document.getElementById("applicantDomain").value,
+                jobId: document.getElementById("jobIdInput").value,
+                jobTitle: document.getElementById("jobTitleInput").value,
+                resumeData: null,
+                resumeName: null,
+                resumeMime: null
+            };
+
+            const fileInput = document.getElementById("resumeFile");
+            
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                payload.resumeName = file.name;
+                payload.resumeMime = file.type;
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    payload.resumeData = e.target.result.split(',')[1];
+                    sendData(payload);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                sendData(payload);
             }
+        }
+        
+        function sendData(payload) {
+            fetch(WEB_APP_URL, {
+                method: "POST",
+                body: JSON.stringify(payload)
+            })
+            .then(() => {
+                if (payload.jobId && !appliedJobs.includes(payload.jobId)) {
+                    appliedJobs.push(payload.jobId);
+                    localStorage.setItem('swabhi_applied', JSON.stringify(appliedJobs));
+                }
+                
+                document.getElementById("formScreen").style.display = "none";
+                document.getElementById("successScreen").style.display = "block";
+                document.getElementById("submitBtn").style.display = "block";
+                document.getElementById("loadingSpinner").style.display = "none";
+                
+                filterJobs(); 
+            })
+            .catch(() => {
+                alert("Network error. Please try submitting again.");
+                document.getElementById("submitBtn").style.display = "block";
+                document.getElementById("loadingSpinner").style.display = "none";
+            });
         }
     </script>
 </body>
