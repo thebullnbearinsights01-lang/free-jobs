@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClipReach Careers</title>
+    
+    <!-- Tailwind CSS via CDN (No installation required) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Source Sans 3"', 'sans-serif']
+                    },
+                    colors: {
+                        brandRed: '#FF0000',
+                        brandBlack: '#000000'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #ffffff; color: #000000; }
+        
+        /* Brutalist Hard Shadows */
+        .hard-shadow {
+            box-shadow: 8px 8px 0px 0px #000000;
+            transition: all 0.2s ease;
+        }
+        .hard-shadow:hover {
+            box-shadow: 0px 0px 0px 0px #000000;
+            transform: translate(8px, 8px);
+        }
+        .modal-shadow {
+            box-shadow: 12px 12px 0px 0px #FF0000;
+        }
+
+        /* Loading Spinner */
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #FF0000;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-brandRed selection:text-white pb-20">
+
+    <!-- Header -->
+    <header class="border-b-4 border-brandBlack py-8 px-4 md:px-8 mb-12">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <h1 class="text-4xl md:text-5xl font-black uppercase tracking-tighter">
+                Clip<span class="text-brandRed">Reach</span> Careers
+            </h1>
+            <span class="hidden sm:inline-block bg-brandBlack text-white font-bold px-4 py-2 uppercase text-sm border-2 border-brandBlack">
+                Hiring Now
+            </span>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 md:px-8">
+        
+        <!-- Loading State -->
+        <div id="loading-state" class="flex flex-col items-center justify-center py-20">
+            <div class="loader mb-4"></div>
+            <p class="font-bold uppercase tracking-widest text-gray-500">Loading Open Positions...</p>
+        </div>
+
+        <!-- Job Grid -->
+        <div id="job-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8 hidden">
+            <!-- Jobs will be injected here by JavaScript -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="empty-state" class="hidden text-center py-20">
+            <h2 class="text-3xl font-black uppercase">No Open Positions</h2>
+            <p class="font-bold text-gray-500 mt-2">Check back later.</p>
+        </div>
+
+    </main>
+
+    <!-- Application Modal Overlay -->
+    <div id="modal-overlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        
+        <!-- Modal Container -->
+        <div class="bg-white border-4 border-brandBlack p-8 md:p-12 w-full max-w-lg modal-shadow relative">
+            
+            <!-- Close Button -->
+            <button onclick="closeModal()" class="absolute top-4 right-5 text-4xl font-black hover:text-brandRed transition-colors">
+                &times;
+            </button>
+
+            <!-- Form Section -->
+            <div id="modal-form-section">
+                <h3 id="modal-job-title" class="text-3xl font-black uppercase mb-2 leading-tight pr-8">
+                    Apply for [Job]
+                </h3>
+                <p class="font-bold text-gray-600 mb-8 border-b-4 border-brandBlack pb-4">
+                    Enter your details below to secure your spot.
+                </p>
+
+                <form id="application-form" onsubmit="submitApplication(event)" class="space-y-6">
+                    <input type="hidden" id="job-id-input">
+                    <input type="hidden" id="job-title-input">
+                    
+                    <div>
+                        <label class="block font-black uppercase text-sm mb-2 tracking-widest">Full Name</label>
+                        <input type="text" id="name-input" required placeholder="JOHN DOE" class="w-full border-4 border-brandBlack p-4 font-bold text-lg focus:outline-none focus:border-brandRed transition-colors uppercase">
+                    </div>
+                    
+                    <div>
+                        <label class="block font-black uppercase text-sm mb-2 tracking-widest">Phone Number</label>
+                        <input type="tel" id="phone-input" required placeholder="+91 00000 00000" class="w-full border-4 border-brandBlack p-4 font-bold text-lg focus:outline-none focus:border-brandRed transition-colors">
+                    </div>
+
+                    <button type="submit" id="submit-btn" class="w-full bg-brandRed text-white font-black text-2xl uppercase py-5 border-4 border-brandBlack hover:bg-red-800 transition-colors mt-4">
+                        Submit Application
+                    </button>
+                </form>
+            </div>
+
+            <!-- Success Section (Hidden by default) -->
+            <div id="modal-success-section" class="hidden text-center py-4">
+                <div class="w-20 h-20 bg-brandBlack text-brandRed flex items-center justify-center mx-auto mb-6 border-4 border-brandRed rounded-full">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="4" d="M5 13l4 4L19 7"></path></svg>
+                </div>
+                <h3 class="text-4xl font-black uppercase mb-2">Application Received!</h3>
+                <p class="text-xl font-bold text-brandRed uppercase mb-8">Step 2: Call us now to confirm.</p>
+                
+                <a href="tel:+916002413305" class="block w-full bg-brandRed text-white text-center font-black text-4xl py-6 border-4 border-brandBlack hard-shadow mb-4">
+                    CALL NOW
+                </a>
+                <p class="font-bold text-gray-600 uppercase tracking-widest text-sm">Please call between 10 AM and 5 PM.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // ==========================================
+        // PASTE YOUR GOOGLE SCRIPT URL HERE
+        // ==========================================
+        const API_URL = "YOUR_GOOGLE_SCRIPT_WEB_APP_URL";
+        
+        // Dummy data used if API is not yet connected, so you can preview the design instantly.
+        const fallbackJobs = [
+            {
+                "ID": "JOB-001",
+                "Job Title": "Back Office Executive",
+                "Salary": "Upto ₹20,000",
+                "Perks": "Performance Incentives",
+                "Requirements": "Experience in Back-Office|Fluent in Assamese & Basic English|Basic Computer Skills",
+                "Location": "Jyotikuchi, Guwahati",
+                "Vacancies": "3",
+                "Status": "Open"
+            },
+            {
+                "ID": "JOB-002",
+                "Job Title": "Telecaller",
+                "Salary": "Upto ₹15,000",
+                "Perks": "High Commission",
+                "Requirements": "Excellent Communication|Fluent in Assamese|Target Driven",
+                "Location": "Jyotikuchi, Guwahati",
+                "Vacancies": "5",
+                "Status": "Open"
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', fetchJobs);
+
+        async function fetchJobs() {
+            const grid = document.getElementById('job-grid');
+            const loader = document.getElementById('loading-state');
+            const emptyState = document.getElementById('empty-state');
+
+            try {
+                // If you haven't put a real URL yet, load the dummy data so you can see the design
+                if(API_URL === "YOUR_GOOGLE_SCRIPT_WEB_APP_URL") {
+                    renderJobs(fallbackJobs);
+                    loader.classList.add('hidden');
+                    grid.classList.remove('hidden');
+                    return;
+                }
+
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                
+                const openJobs = data.filter(job => job.Status === 'Open');
+                
+                loader.classList.add('hidden');
+                
+                if (openJobs.length > 0) {
+                    renderJobs(openJobs);
+                    grid.classList.remove('hidden');
+                } else {
+                    emptyState.classList.remove('hidden');
+                }
+
+            } catch (error) {
+                console.error("Error fetching jobs:", error);
+                alert("Could not load jobs. Make sure your Google Script URL is correct.");
+                loader.classList.add('hidden');
+            }
+        }
+
+        function renderJobs(jobs) {
+            const grid = document.getElementById('job-grid');
+            grid.innerHTML = ''; // Clear existing
+
+            jobs.forEach(job => {
+                // Split the pipe-separated requirements into list items
+                const reqsHtml = job.Requirements.split('|')
+                    .map(req => `<li>${req.trim()}</li>`)
+                    .join('');
+
+                const cardHtml = `
+                    <div class="border-4 border-brandBlack p-6 md:p-8 flex flex-col justify-between hard-shadow bg-white">
+                        <div>
+                            <div class="flex justify-between items-start mb-4 gap-4">
+                                <h2 class="text-3xl font-black uppercase leading-tight">${job['Job Title']}</h2>
+                                <span class="bg-brandRed text-white font-bold text-xs md:text-sm px-3 py-1 uppercase whitespace-nowrap border-2 border-brandRed">
+                                    🔥 Only ${job.Vacancies} left!
+                                </span>
+                            </div>
+                            
+                            <p class="text-lg font-bold text-gray-800 uppercase mb-2 border-b-4 border-brandBlack pb-2 inline-block">
+                                📍 ${job.Location}
+                            </p>
+                            
+                            <div class="my-6">
+                                <p class="font-black uppercase tracking-widest text-xs text-gray-500 mb-1">Compensation</p>
+                                <p class="text-4xl md:text-5xl font-black text-brandRed tracking-tighter">${job.Salary}</p>
+                                <p class="font-bold mt-1 text-sm uppercase">${job.Perks}</p>
+                            </div>
+
+                            <div class="mb-8">
+                                <p class="font-black uppercase text-sm border-b-4 border-brandBlack pb-1 mb-3 inline-block">Requirements</p>
+                                <ul class="list-disc pl-5 space-y-1 font-bold text-gray-800">
+                                    ${reqsHtml}
+                                </ul>
+                            </div>
+                        </div>
+
+                        <button onclick="openModal('${job.ID}', '${job['Job Title']}')" class="w-full bg-brandBlack text-white font-black text-2xl uppercase py-4 border-4 border-brandBlack hover:bg-brandRed hover:border-brandRed transition-colors">
+                            Apply Now
+                        </button>
+                    </div>
+                `;
+                grid.innerHTML += cardHtml;
+            });
+        }
+
+        // Modal Controls
+        const modalOverlay = document.getElementById('modal-overlay');
+        const formSection = document.getElementById('modal-form-section');
+        const successSection = document.getElementById('modal-success-section');
+        const submitBtn = document.getElementById('submit-btn');
+
+        function openModal(jobId, jobTitle) {
+            document.getElementById('modal-job-title').innerText = `Apply for ${jobTitle}`;
+            document.getElementById('job-id-input').value = jobId;
+            document.getElementById('job-title-input').value = jobTitle;
+            
+            // Reset form UI
+            formSection.classList.remove('hidden');
+            successSection.classList.add('hidden');
+            document.getElementById('application-form').reset();
+            submitBtn.innerHTML = 'Submit Application';
+            submitBtn.disabled = false;
+
+            modalOverlay.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            modalOverlay.classList.add('hidden');
+        }
+
+        async function submitApplication(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name-input').value;
+            const phone = document.getElementById('phone-input').value;
+            const jobId = document.getElementById('job-id-input').value;
+            const jobTitle = document.getElementById('job-title-input').value;
+
+            // Loading state
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<div class="loader"></div>';
+
+            const payload = { name, phone, jobId, jobTitle };
+
+            // If no real API is connected yet, fake the submission so you can see the success screen
+            if(API_URL === "YOUR_GOOGLE_SCRIPT_WEB_APP_URL") {
+                setTimeout(() => {
+                    formSection.classList.add('hidden');
+                    successSection.classList.remove('hidden');
+                }, 1000);
+                return;
+            }
+
+            try {
+                await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                });
+                
+                // Show Success Screen instantly
+                formSection.classList.add('hidden');
+                successSection.classList.remove('hidden');
+
+            } catch (error) {
+                console.error('Error submitting application:', error);
+                alert("Something went wrong. Please try again.");
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Submit Application';
+            }
+        }
+    </script>
+</body>
+</html>
