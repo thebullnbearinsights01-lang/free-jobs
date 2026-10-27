@@ -240,4 +240,114 @@
             }
         }
 
-        function renderJobs(jobs
+        function renderJobs(jobs) {
+            const grid = document.getElementById('job-grid');
+            grid.innerHTML = ''; 
+
+            jobs.forEach(job => {
+                const reqsHtml = job.Requirements.split('|')
+                    .map(req => `<li class="flex items-start gap-2"><i class="fa-solid fa-minus text-[10px] mt-1.5 text-gray-300"></i> <span class="flex-1">${req.trim()}</span></li>`)
+                    .join('');
+
+                const cardHtml = `
+                    <div class="bg-brand-white border border-brand-border rounded-2xl p-6 md:p-8 premium-shadow flex flex-col h-full">
+                        <div class="flex-grow">
+                            <div class="flex justify-between items-start mb-5">
+                                <span class="bg-gray-100 text-gray-600 font-source font-bold text-[10px] px-2.5 py-1 rounded-full uppercase tracking-widest">
+                                    <i class="fa-solid fa-location-dot mr-1"></i> ${job.Location}
+                                </span>
+                                <span class="text-brand-red font-source font-bold text-[10px] uppercase tracking-widest bg-red-50 px-2.5 py-1 rounded-full">
+                                    🔥 ${job.Vacancies} Left
+                                </span>
+                            </div>
+                            
+                            <h2 class="font-abril text-2xl text-brand-black leading-tight mb-6">${job['Job Title']}</h2>
+                            
+                            <div class="bg-gray-50 rounded-xl p-4 border border-brand-border mb-6">
+                                <p class="font-source font-bold uppercase tracking-widest text-gray-400 text-[10px] mb-1">Compensation</p>
+                                <p class="font-bebas text-4xl text-brand-black tracking-wide">${job.Salary}</p>
+                                <p class="font-source font-semibold text-xs text-brand-red mt-1">${job.Perks}</p>
+                            </div>
+
+                            <div class="mb-8">
+                                <p class="font-source font-bold uppercase text-xs tracking-widest text-gray-400 mb-3 border-b border-brand-border pb-2">Requirements</p>
+                                <ul class="font-source text-sm text-gray-600 space-y-2">
+                                    ${reqsHtml}
+                                </ul>
+                            </div>
+                        </div>
+
+                        <button onclick="openModal('${job.ID}', '${job['Job Title']}')" class="w-full bg-brand-black text-brand-white font-source font-bold text-sm px-6 py-3 rounded-full hover:bg-brand-red transition-colors mt-auto">
+                            Apply for Role
+                        </button>
+                    </div>
+                `;
+                grid.innerHTML += cardHtml;
+            });
+        }
+
+        // Modal Controls
+        const modalOverlay = document.getElementById('modal-overlay');
+        const formSection = document.getElementById('modal-form-section');
+        const successSection = document.getElementById('modal-success-section');
+        const submitBtn = document.getElementById('submit-btn');
+
+        function openModal(jobId, jobTitle) {
+            document.getElementById('modal-job-title').innerText = jobTitle;
+            document.getElementById('job-id-input').value = jobId;
+            document.getElementById('job-title-input').value = jobTitle;
+            
+            formSection.classList.remove('hidden');
+            successSection.classList.add('hidden');
+            document.getElementById('application-form').reset();
+            submitBtn.innerHTML = 'Submit Application';
+            submitBtn.disabled = false;
+
+            modalOverlay.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            modalOverlay.classList.add('hidden');
+        }
+
+        async function submitApplication(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name-input').value;
+            const phone = document.getElementById('phone-input').value;
+            const jobId = document.getElementById('job-id-input').value;
+            const jobTitle = document.getElementById('job-title-input').value;
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<div class="loader !border-gray-400 !border-t-white !w-5 !h-5 border-2"></div>';
+
+            const payload = { name, phone, jobId, jobTitle };
+
+            if(API_URL === "YOUR_GOOGLE_SCRIPT_WEB_APP_URL") {
+                setTimeout(() => {
+                    formSection.classList.add('hidden');
+                    successSection.classList.remove('hidden');
+                }, 1000);
+                return;
+            }
+
+            try {
+                await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                });
+                
+                formSection.classList.add('hidden');
+                successSection.classList.remove('hidden');
+
+            } catch (error) {
+                console.error('Error submitting application:', error);
+                alert("Connection failed. Please try again.");
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Submit Application';
+            }
+        }
+    </script>
+</body>
+</html>
