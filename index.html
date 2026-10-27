@@ -1,24 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ClipReach Careers</title>
+    <title>Careers | ClipReach</title>
     
-    <!-- Tailwind CSS via CDN (No installation required) -->
+    <!-- Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    
+    <!-- Premium Font Stack -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Bebas+Neue&family=Source+Sans+3:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['"Source Sans 3"', 'sans-serif']
+                        'abril': ['"Abril Fatface"', 'serif'],
+                        'bebas': ['"Bebas Neue"', 'sans-serif'],
+                        'source': ['"Source Sans 3"', 'sans-serif']
                     },
                     colors: {
-                        brandRed: '#FF0000',
-                        brandBlack: '#000000'
+                        brand: {
+                            red: '#ff0000',
+                            black: '#0a0a0a',
+                            white: '#ffffff',
+                            gray: '#f4f4f5',
+                            border: '#e4e4e7'
+                        }
                     }
                 }
             }
@@ -26,28 +38,24 @@
     </script>
 
     <style>
-        body { background-color: #ffffff; color: #000000; }
+        body { background-color: #f4f4f5; color: #0a0a0a; }
         
-        /* Brutalist Hard Shadows */
-        .hard-shadow {
-            box-shadow: 8px 8px 0px 0px #000000;
-            transition: all 0.2s ease;
+        .premium-shadow {
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .hard-shadow:hover {
-            box-shadow: 0px 0px 0px 0px #000000;
-            transform: translate(8px, 8px);
-        }
-        .modal-shadow {
-            box-shadow: 12px 12px 0px 0px #FF0000;
+        .premium-shadow:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.12);
         }
 
         /* Loading Spinner */
         .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #FF0000;
+            border: 3px solid #e4e4e7;
+            border-top: 3px solid #ff0000;
             border-radius: 50%;
-            width: 30px;
-            height: 30px;
+            width: 32px;
+            height: 32px;
             animation: spin 1s linear infinite;
             margin: auto;
         }
@@ -57,94 +65,110 @@
         }
     </style>
 </head>
-<body class="font-sans antialiased selection:bg-brandRed selection:text-white pb-20">
+<body class="font-source antialiased min-h-screen flex flex-col selection:bg-brand-red selection:text-white">
 
-    <!-- Header -->
-    <header class="border-b-4 border-brandBlack py-8 px-4 md:px-8 mb-12">
-        <div class="max-w-6xl mx-auto flex items-center justify-between">
-            <h1 class="text-4xl md:text-5xl font-black uppercase tracking-tighter">
-                Clip<span class="text-brandRed">Reach</span> Careers
-            </h1>
-            <span class="hidden sm:inline-block bg-brandBlack text-white font-bold px-4 py-2 uppercase text-sm border-2 border-brandBlack">
-                Hiring Now
-            </span>
+    <!-- Top Navigation -->
+    <header class="bg-brand-white border-b border-brand-border sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-lg bg-brand-black flex items-center justify-center text-brand-white text-sm">
+                    <i class="fa-solid fa-scissors"></i>
+                </div>
+                <span class="font-abril text-2xl tracking-wide text-brand-black mt-1">Clip<span class="text-brand-red">Reach</span>.</span>
+            </a>
+
+            <div class="flex items-center gap-4">
+                <span class="bg-red-50 text-brand-red font-bold text-xs px-3 py-1 rounded-full border border-red-100 uppercase tracking-wider">
+                    Actively Hiring
+                </span>
+            </div>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-6xl mx-auto px-4 md:px-8">
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 w-full">
         
+        <!-- Hero Header -->
+        <div class="mb-16 text-center md:text-left max-w-3xl">
+            <h1 class="font-abril text-4xl md:text-5xl text-brand-black mb-4">Open Positions</h1>
+            <p class="font-source text-lg text-gray-600">Join the ClipReach team. Browse our current openings below, apply instantly, and our recruitment team will reach out within 24 hours.</p>
+        </div>
+
         <!-- Loading State -->
         <div id="loading-state" class="flex flex-col items-center justify-center py-20">
             <div class="loader mb-4"></div>
-            <p class="font-bold uppercase tracking-widest text-gray-500">Loading Open Positions...</p>
+            <p class="font-source font-bold uppercase tracking-widest text-gray-400 text-sm">Syncing latest openings...</p>
         </div>
 
         <!-- Job Grid -->
-        <div id="job-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8 hidden">
-            <!-- Jobs will be injected here by JavaScript -->
+        <div id="job-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 hidden">
+            <!-- Jobs injected via JS -->
         </div>
 
         <!-- Empty State -->
-        <div id="empty-state" class="hidden text-center py-20">
-            <h2 class="text-3xl font-black uppercase">No Open Positions</h2>
-            <p class="font-bold text-gray-500 mt-2">Check back later.</p>
+        <div id="empty-state" class="hidden text-center py-24 bg-brand-white border border-brand-border rounded-2xl premium-shadow">
+            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-400 text-2xl">
+                <i class="fa-solid fa-briefcase"></i>
+            </div>
+            <h2 class="font-source font-bold text-2xl text-brand-black mb-2">No Open Positions</h2>
+            <p class="font-source text-gray-500">We are currently fully staffed. Please check back later for new opportunities.</p>
         </div>
 
     </main>
 
     <!-- Application Modal Overlay -->
-    <div id="modal-overlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div id="modal-overlay" class="fixed inset-0 bg-brand-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         
         <!-- Modal Container -->
-        <div class="bg-white border-4 border-brandBlack p-8 md:p-12 w-full max-w-lg modal-shadow relative">
+        <div class="bg-brand-white border border-brand-border rounded-2xl p-8 md:p-10 w-full max-w-md shadow-2xl relative">
             
             <!-- Close Button -->
-            <button onclick="closeModal()" class="absolute top-4 right-5 text-4xl font-black hover:text-brandRed transition-colors">
-                &times;
+            <button onclick="closeModal()" class="absolute top-5 right-5 text-gray-400 hover:text-brand-red transition-colors">
+                <i class="fa-solid fa-xmark text-xl"></i>
             </button>
 
             <!-- Form Section -->
             <div id="modal-form-section">
-                <h3 id="modal-job-title" class="text-3xl font-black uppercase mb-2 leading-tight pr-8">
-                    Apply for [Job]
-                </h3>
-                <p class="font-bold text-gray-600 mb-8 border-b-4 border-brandBlack pb-4">
-                    Enter your details below to secure your spot.
-                </p>
+                <div class="mb-8">
+                    <p class="font-source font-bold text-xs text-brand-red uppercase tracking-widest mb-1">Application</p>
+                    <h3 id="modal-job-title" class="font-abril text-2xl text-brand-black leading-tight">
+                        Role Title
+                    </h3>
+                </div>
 
-                <form id="application-form" onsubmit="submitApplication(event)" class="space-y-6">
+                <form id="application-form" onsubmit="submitApplication(event)" class="space-y-5">
                     <input type="hidden" id="job-id-input">
                     <input type="hidden" id="job-title-input">
                     
                     <div>
-                        <label class="block font-black uppercase text-sm mb-2 tracking-widest">Full Name</label>
-                        <input type="text" id="name-input" required placeholder="JOHN DOE" class="w-full border-4 border-brandBlack p-4 font-bold text-lg focus:outline-none focus:border-brandRed transition-colors uppercase">
+                        <label class="block font-source font-bold text-xs uppercase tracking-widest text-gray-500 mb-2">Full Name</label>
+                        <input type="text" id="name-input" required placeholder="Jane Doe" class="w-full bg-gray-50 border border-brand-border rounded-xl px-4 py-3 font-source text-sm focus:outline-none focus:border-brand-black focus:ring-1 focus:ring-brand-black transition-all">
                     </div>
                     
                     <div>
-                        <label class="block font-black uppercase text-sm mb-2 tracking-widest">Phone Number</label>
-                        <input type="tel" id="phone-input" required placeholder="+91 00000 00000" class="w-full border-4 border-brandBlack p-4 font-bold text-lg focus:outline-none focus:border-brandRed transition-colors">
+                        <label class="block font-source font-bold text-xs uppercase tracking-widest text-gray-500 mb-2">Phone Number</label>
+                        <input type="tel" id="phone-input" required placeholder="+91 00000 00000" class="w-full bg-gray-50 border border-brand-border rounded-xl px-4 py-3 font-source text-sm focus:outline-none focus:border-brand-black focus:ring-1 focus:ring-brand-black transition-all">
                     </div>
 
-                    <button type="submit" id="submit-btn" class="w-full bg-brandRed text-white font-black text-2xl uppercase py-5 border-4 border-brandBlack hover:bg-red-800 transition-colors mt-4">
+                    <button type="submit" id="submit-btn" class="w-full bg-brand-black text-brand-white font-source font-bold text-sm px-6 py-3.5 rounded-full hover:bg-brand-red transition-colors mt-4 flex items-center justify-center">
                         Submit Application
                     </button>
                 </form>
             </div>
 
-            <!-- Success Section (Hidden by default) -->
-            <div id="modal-success-section" class="hidden text-center py-4">
-                <div class="w-20 h-20 bg-brandBlack text-brandRed flex items-center justify-center mx-auto mb-6 border-4 border-brandRed rounded-full">
-                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="4" d="M5 13l4 4L19 7"></path></svg>
+            <!-- Success Section -->
+            <div id="modal-success-section" class="hidden text-center py-6">
+                <div class="w-16 h-16 bg-green-50 text-green-500 flex items-center justify-center mx-auto mb-6 rounded-full border border-green-200">
+                    <i class="fa-solid fa-check text-2xl"></i>
                 </div>
-                <h3 class="text-4xl font-black uppercase mb-2">Application Received!</h3>
-                <p class="text-xl font-bold text-brandRed uppercase mb-8">Step 2: Call us now to confirm.</p>
+                <h3 class="font-abril text-3xl text-brand-black mb-2">Application Received</h3>
+                <p class="font-source text-brand-red font-bold text-sm uppercase tracking-wide mb-8">Next Step: Call us to confirm.</p>
                 
-                <a href="tel:+916002413305" class="block w-full bg-brandRed text-white text-center font-black text-4xl py-6 border-4 border-brandBlack hard-shadow mb-4">
-                    CALL NOW
+                <a href="tel:+916002413305" class="inline-block w-full bg-brand-black text-brand-white font-source font-bold text-lg py-4 rounded-xl hover:bg-brand-red transition-colors shadow-lg shadow-brand-red/10 mb-3">
+                    <i class="fa-solid fa-phone mr-2"></i> Call Now
                 </a>
-                <p class="font-bold text-gray-600 uppercase tracking-widest text-sm">Please call between 10 AM and 5 PM.</p>
+                <p class="font-source text-xs text-gray-500 uppercase tracking-widest">Office Hours: 10 AM — 5 PM</p>
             </div>
 
         </div>
@@ -157,7 +181,7 @@
         // ==========================================
         const API_URL = "YOUR_GOOGLE_SCRIPT_WEB_APP_URL";
         
-        // Dummy data used if API is not yet connected, so you can preview the design instantly.
+        // Dummy data for design preview before API is hooked up
         const fallbackJobs = [
             {
                 "ID": "JOB-001",
@@ -189,7 +213,6 @@
             const emptyState = document.getElementById('empty-state');
 
             try {
-                // If you haven't put a real URL yet, load the dummy data so you can see the design
                 if(API_URL === "YOUR_GOOGLE_SCRIPT_WEB_APP_URL") {
                     renderJobs(fallbackJobs);
                     loader.classList.add('hidden');
@@ -199,7 +222,6 @@
 
                 const response = await fetch(API_URL);
                 const data = await response.json();
-                
                 const openJobs = data.filter(job => job.Status === 'Open');
                 
                 loader.classList.add('hidden');
@@ -213,124 +235,9 @@
 
             } catch (error) {
                 console.error("Error fetching jobs:", error);
-                alert("Could not load jobs. Make sure your Google Script URL is correct.");
+                alert("Could not load jobs. Please refresh.");
                 loader.classList.add('hidden');
             }
         }
 
-        function renderJobs(jobs) {
-            const grid = document.getElementById('job-grid');
-            grid.innerHTML = ''; // Clear existing
-
-            jobs.forEach(job => {
-                // Split the pipe-separated requirements into list items
-                const reqsHtml = job.Requirements.split('|')
-                    .map(req => `<li>${req.trim()}</li>`)
-                    .join('');
-
-                const cardHtml = `
-                    <div class="border-4 border-brandBlack p-6 md:p-8 flex flex-col justify-between hard-shadow bg-white">
-                        <div>
-                            <div class="flex justify-between items-start mb-4 gap-4">
-                                <h2 class="text-3xl font-black uppercase leading-tight">${job['Job Title']}</h2>
-                                <span class="bg-brandRed text-white font-bold text-xs md:text-sm px-3 py-1 uppercase whitespace-nowrap border-2 border-brandRed">
-                                    🔥 Only ${job.Vacancies} left!
-                                </span>
-                            </div>
-                            
-                            <p class="text-lg font-bold text-gray-800 uppercase mb-2 border-b-4 border-brandBlack pb-2 inline-block">
-                                📍 ${job.Location}
-                            </p>
-                            
-                            <div class="my-6">
-                                <p class="font-black uppercase tracking-widest text-xs text-gray-500 mb-1">Compensation</p>
-                                <p class="text-4xl md:text-5xl font-black text-brandRed tracking-tighter">${job.Salary}</p>
-                                <p class="font-bold mt-1 text-sm uppercase">${job.Perks}</p>
-                            </div>
-
-                            <div class="mb-8">
-                                <p class="font-black uppercase text-sm border-b-4 border-brandBlack pb-1 mb-3 inline-block">Requirements</p>
-                                <ul class="list-disc pl-5 space-y-1 font-bold text-gray-800">
-                                    ${reqsHtml}
-                                </ul>
-                            </div>
-                        </div>
-
-                        <button onclick="openModal('${job.ID}', '${job['Job Title']}')" class="w-full bg-brandBlack text-white font-black text-2xl uppercase py-4 border-4 border-brandBlack hover:bg-brandRed hover:border-brandRed transition-colors">
-                            Apply Now
-                        </button>
-                    </div>
-                `;
-                grid.innerHTML += cardHtml;
-            });
-        }
-
-        // Modal Controls
-        const modalOverlay = document.getElementById('modal-overlay');
-        const formSection = document.getElementById('modal-form-section');
-        const successSection = document.getElementById('modal-success-section');
-        const submitBtn = document.getElementById('submit-btn');
-
-        function openModal(jobId, jobTitle) {
-            document.getElementById('modal-job-title').innerText = `Apply for ${jobTitle}`;
-            document.getElementById('job-id-input').value = jobId;
-            document.getElementById('job-title-input').value = jobTitle;
-            
-            // Reset form UI
-            formSection.classList.remove('hidden');
-            successSection.classList.add('hidden');
-            document.getElementById('application-form').reset();
-            submitBtn.innerHTML = 'Submit Application';
-            submitBtn.disabled = false;
-
-            modalOverlay.classList.remove('hidden');
-        }
-
-        function closeModal() {
-            modalOverlay.classList.add('hidden');
-        }
-
-        async function submitApplication(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('name-input').value;
-            const phone = document.getElementById('phone-input').value;
-            const jobId = document.getElementById('job-id-input').value;
-            const jobTitle = document.getElementById('job-title-input').value;
-
-            // Loading state
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<div class="loader"></div>';
-
-            const payload = { name, phone, jobId, jobTitle };
-
-            // If no real API is connected yet, fake the submission so you can see the success screen
-            if(API_URL === "YOUR_GOOGLE_SCRIPT_WEB_APP_URL") {
-                setTimeout(() => {
-                    formSection.classList.add('hidden');
-                    successSection.classList.remove('hidden');
-                }, 1000);
-                return;
-            }
-
-            try {
-                await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify(payload)
-                });
-                
-                // Show Success Screen instantly
-                formSection.classList.add('hidden');
-                successSection.classList.remove('hidden');
-
-            } catch (error) {
-                console.error('Error submitting application:', error);
-                alert("Something went wrong. Please try again.");
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = 'Submit Application';
-            }
-        }
-    </script>
-</body>
-</html>
+        function renderJobs(jobs
