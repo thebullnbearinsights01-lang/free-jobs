@@ -20,7 +20,7 @@
         html { scroll-behavior: smooth; }
         body { background-color: var(--brand-light); color: var(--brand-dark); line-height: 1.5; -webkit-font-smoothing: antialiased; display: flex; flex-direction: column; min-height: 100vh; }
 
-        /* ==================== HERO SECTION (ZOMATO STYLE) ==================== */
+        /* ==================== HERO SECTION ==================== */
         .hero-section {
             position: relative;
             width: 100%;
@@ -54,6 +54,7 @@
             z-index: 2;
         }
 
+        /* Mobile Default: Centered */
         .hero-content {
             position: relative;
             z-index: 3;
@@ -65,6 +66,7 @@
             gap: 14px;
             margin-bottom: 40px;
             will-change: transform, opacity;
+            text-align: center;
         }
 
         .hero-title {
@@ -101,7 +103,6 @@
             box-shadow: 0 12px 35px rgba(220, 38, 38, 0.25);
         }
 
-        /* EXACT MATCH FOR "SCROLL DOWN" ICON */
         .scroll-indicator {
             position: absolute;
             bottom: 25px;
@@ -129,12 +130,18 @@
             60% { transform: translate(-50%, -3px); }
         }
 
+        /* Desktop Fix: Shifts content to the left so it doesn't block the video subject */
         @media(min-width: 768px) {
-            .hero-section { justify-content: center; }
-            .hero-content { margin-bottom: 0; }
+            .hero-section { justify-content: center; align-items: flex-start; text-align: left; padding: 60px 80px; }
+            .hero-content { align-items: flex-start; text-align: left; max-width: 600px; margin-bottom: 0; }
             .hero-title { font-size: 3.2rem; }
-            .hero-search-box { max-width: 500px; padding: 18px; }
-            .scroll-indicator { bottom: 35px; }
+            .hero-search-box { text-align: left; padding: 18px 26px; }
+            .scroll-indicator { left: 80px; transform: none; bottom: 40px; }
+            @keyframes bounce {
+                0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+                40% { transform: translateY(-6px); }
+                60% { transform: translateY(-3px); }
+            }
         }
 
         /* ==================== STICKY FILTER BAR ==================== */
@@ -160,7 +167,7 @@
             align-items: center;
             justify-content: center;
             gap: 6px;
-            font-size: 1.05rem;
+            font-size: 1.15rem;
             font-weight: 900;
             color: var(--brand-dark);
             text-transform: uppercase;
@@ -174,7 +181,7 @@
         }
         .sticky-brand span {
             color: var(--brand-red);
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             letter-spacing: 1.5px;
             font-weight: 800;
         }
@@ -270,7 +277,7 @@
         
         .salary-box { margin-bottom: 16px; background: var(--brand-light); border: 1px solid var(--border-color); border-radius: 10px; padding: 12px 14px; display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
         .salary-main { font-size: 1.35rem; font-weight: 900; color: var(--brand-red); display: flex; align-items: center; line-height: 1; }
-        .salary-sub { font-size: 0.74rem; font-weight: 800; color: var(--brand-dark); text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.2; }
+        .salary-sub { font-size: 0.75rem; font-weight: 800; color: var(--brand-dark); text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.2; }
 
         .requirements { flex-grow: 1; font-size: 0.9rem; color: #4B5563; margin-bottom: 20px; }
         .requirements strong { color: var(--brand-dark); font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 8px; }
@@ -282,7 +289,7 @@
         .apply-btn:active { transform: scale(0.99); }
         .apply-btn.applied { background: var(--success-green); box-shadow: none; cursor: default; }
 
-        /* ==================== MINIMAL FOOTER ==================== */
+        /* ==================== FOOTER ==================== */
         .site-footer {
             background-color: #fff;
             border-top: 1px solid var(--border-color);
@@ -497,8 +504,8 @@
     </div>
 
     <script>
-        const SHEET_ID = "1lrhu5ObyaVmQXnhykRA6BvJely4Pdkart_oU6g0EGYc"; 
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzJNA8sChQ_xrb0kizsc68eUe-JJwiQjQ1YC_R3-AqzdQchie0OevWwPL9j_Fr_BKgvtg/exec"; 
+        const SHEET_ID = "19N7jV-E8nE5OrEEFS2w5GxqlzFAS3RHER6JIv0ipDZg"; 
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx4_A9GMJA-2h_2gS_u9-e4iHgDCOLfWIUMQ_AjD4p18oXQKcduqkDIART6KwnxjnKA/exec"; 
         const SHEET_JSON_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=Listings`;
 
         let allJobs = [];
@@ -604,8 +611,11 @@
 
         function renderJobs(jobsToRender) {
             const grid = document.getElementById("jobGrid");
+            const countBadge = document.getElementById("roleCount");
             let htmlString = ""; 
             
+            countBadge.innerText = `${jobsToRender.length} ${jobsToRender.length === 1 ? 'role' : 'roles'}`;
+
             if(jobsToRender.length === 0) {
                 grid.innerHTML = `<div class="empty-state">No roles match your current search criteria.</div>`;
                 return;
